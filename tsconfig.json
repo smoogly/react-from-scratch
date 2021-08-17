@@ -1,17 +1,14 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "types": [
-      "node",
-      "mocha"
-    ],
+    "types": ["mocha"],
     "outDir": "./build",
     "module": "commonjs",
     "target": "es6",
     "sourceMap": true,
     "incremental": true,
     "tsBuildInfoFile": "./.tsbuildinfo/buildinfo",
-    "lib": ["esnext"],
+    "lib": ["esnext", "dom"],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "downlevelIteration": true,
