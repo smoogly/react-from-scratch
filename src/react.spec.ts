@@ -18,14 +18,12 @@ describe('React', () => {
         });
 
         it('should render nested built-in elements', async () => {
-            reactDOMRender(createElement("div", {
-                children: [ createElement("span", { children: "hello" }) ]
-            }), body);
+            reactDOMRender(createElement("div", {}, createElement("span", {}, "hello")), body);
             expect(body.children[0].innerHTML.toLowerCase()).toBe("<span>hello</span>");
         });
     });
 
-    xdescribe('with custom components', () => {
+    describe('with custom components', () => {
         it('should render', async () => {
             class MyComponent extends ReactComponent<{}> {
                 render() {
@@ -40,7 +38,7 @@ describe('React', () => {
         it('should apply props', async () => {
             class MyComponent extends ReactComponent<{ text: string }> {
                 render() {
-                    return createElement("div", { children: this.props.text });
+                    return createElement("div", {}, this.props.text);
                 }
             }
 
@@ -57,10 +55,10 @@ describe('React', () => {
 
             class MyComponent extends ReactComponent<{}> {
                 render() {
-                    return createElement("div", { children: [
+                    return createElement("div", {},
                         createElement(Nested, { text: "hello," }),
-                        createElement(Nested, { text: "world" }),
-                    ] });
+                        createElement(Nested, { text: "world" })
+                    );
                 }
             }
 
