@@ -3,7 +3,8 @@ import { createElement, ReactComponent, reactDOMRender } from "./react";
 describe('React', () => {
     let body: Element;
     beforeEach(() => {
-       body = document.body;
+        document.body.innerHTML = ''
+        body = document.body;
     });
 
     describe('with built-in elements', () => {

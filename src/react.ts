@@ -20,7 +20,40 @@ export abstract class ReactComponent<P> implements IReactComponent<P> {
     abstract render(): ReactNode;
 }
 
-export declare function reactDOMRender(input: ReactElement, element: Element): void;
+export const setAttributes = (el: HTMLElement, attrs: any) : void => {
+    for(var key in attrs) {
+    el.setAttribute(key, attrs[key]);
+    }
+}
+
+declare function renderCustomComponent<P>(type: IReactComponentConstructor<P>, props: P ): HTMLElement
+
+export function reactDOMRender(input: ReactElement, element: Element): any{
+    let dOMElement: any;
+    if (typeof input === 'string'){
+        // handle text nodes
+        dOMElement = document.createTextNode(input)
+    } else{
+        const {type, props} = input;
+        if(typeof type !== 'string'){
+            // handle custom components
+            dOMElement = renderCustomComponent(type, props)
+        }else{
+            // handle html tags
+            dOMElement = document.createElement(type)
+            if(props){
+                const {children, ...otherProps} = props;
+                setAttributes(dOMElement, otherProps);
+                if(children){
+                    [].concat(children).forEach(child => {
+                        reactDOMRender(child, dOMElement)
+                    })
+                }
+            }
+        }
+    }
+    element.appendChild(dOMElement)
+};
 
 
 export function createElement<P>(component: IReactComponentConstructor<P> | string, props: P): ReactElement {
